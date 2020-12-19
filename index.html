@@ -3,11 +3,10 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
     <title>Digital Library</title>
     <meta name="keywords" content="library, books, bookshelf" />
     <meta name="description" content="A digital library to keep track of all of your read and unread books." />
-
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
@@ -17,71 +16,114 @@
           <option value="dark">Dark Theme</option>
           <option value="light">Light Theme</option>
         </select>
-      <div class="info-container">
-        <div class="stats">
-          <p class="stat-title">Read Books:</p>
-          <p class="books-read">0</p>
-        </div>
-        <div class="stats">
-          <p class="stat-title">Unread Books:</p>
-          <p class="books-unread">0</p>
-        </div>
-        <div class="stats">
-          <p class="stat-title">Total Books:</p>
-          <p class="books-total">0</p>
-        </div>
-        <button type="button" class="add-btn btn">Add Book</button>
-      </div>
-      <a href="#" class="options-toggle"><b>Show Library Options</b></a>
-      <div class="options-container">
-        <div class="search-container">
-          <label for="search"><b>Filter by title, author, or tags:</b></label>
-          <br>
-          <input id="search" type="search">
-          <select id="search-type" name="search-type">
-            <option value="title">Title</option>
-            <option value="author">Author</option>
-            <option value="tags">Tags</option>
-          </select>
-        </div>
-        <div class="status-container">
-          <label for="read-status"><b>Filter by status:</b></label>
-          <br>
-          <select id="status-filter" name="read-status">
-            <option value="all">Read + Unread</option>
-            <option value="read">Read Only</option>
-            <option value="not read">Unread Only</option>
-          </select>
-        </div>
-        <div class ="sort-container">
-          <label for="sort-dropdown"><b>Sort by:</b></label>
-          <br>
-          <select id="sort-dropdown" name="sort-dropdown">
-            <option value="added newest">Date Added (newest first)</option>
-            <option value="added oldest">Date Added (oldest first)</option>
-            <option value="title a to z">Title (a to z)</option>
-            <option value="title z to a">Title (z to a)</option>
-            <option value="author a to z">Author (a to z)</option>
-            <option value="author z to a">Author (z to a)</option>
-          </select>
-        </div>
-        <button type="button" class="reset-btn btn">Reset Options</button>
-      </div>
     </header>
-    <div class="library-container">
-      <div class="book">
+    <div class="main-container">
+      <div class="main-bar">
+        <div class="info-container">
+          <div class="stats">
+            <div class="stat-title"><b>Read Books:</b></div>
+            <div class="books-read">0</div>
+          </div>
+          <div class="stats">
+            <div class="stat-title"><b>Unread Books:</b></div>
+            <div class="books-unread">0</div>
+          </div>
+          <div class="stats">
+            <div class="stat-title"><b>Total Books:</b></div>
+            <div class="books-total">0</div>
+          </div>
+          <button type="button" class="add-btn btn">New Book</button>
+        </div>
+        <button type="button" class="options-toggle btn">
+          <b>Show Library Options<i class="material-icons">arrow_drop_down</i></b>
+        </button>
+        <div class="options-container">
+            <label for="search"><b>Filter:</b></label>
+            <br>
+            <input id="search" type="search" placeholder="title, author, or tags">
+            <select id="search-type" name="search-type">
+              <option value="title">Title</option>
+              <option value="author">Author</option>
+              <option value="tags">Tags</option>
+            </select>
+            <p><i>use commas to separate tags, i.e. "sci-fi, reread, favorite"</i></p>
+            <select id="status-filter" name="read-status">
+              <option value="all">Read + Unread</option>
+              <option value="read">Read Only</option>
+              <option value="not read">Unread Only</option>
+            </select>
+            <label for="sort-dropdown"><b>Sort:</b></label>
+            <br>
+            <select id="sort-dropdown" name="sort-dropdown">
+              <option value="added newest">Date Added (newest first)</option>
+              <option value="added oldest">Date Added (oldest first)</option>
+              <option value="title a to z">Title (a to z)</option>
+              <option value="title z to a">Title (z to a)</option>
+              <option value="author a to z">Author (a to z)</option>
+              <option value="author z to a">Author (z to a)</option>
+            </select>
+          <button type="button" class="reset-btn btn">Reset Options</button>
+        </div>
+        <button type="button" class="scroll-btn btn">
+        <i class="material-icons">arrow_upward</i>
+        <br>
+        Back to Top
+        </button>
+      </div>
+      <div class="library-container">
+        <div id="0" class="book">
+          <div class="book-title">Game of Thrones 2: Electric Boogaloo</div>
+          <div class="book-author"><i>George R.R. Martin</i></div>
+          <div class="book-bottom">
+            <div class="book-pages">343 p.</div>
+            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
+            <button type="button" class="book-status btn">READ</button>
+            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
+          </div>
+        </div>
+        <div class="book">
+          <div class="book-title">Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo</div>
+          <div class="book-author"><i>George R.R. Martin</i></div>
+          <div class="book-bottom">
+            <div class="book-pages">343 p.</div>
+            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
+            <button type="button" class="book-status btn">READ</button>
+            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
+          </div>
+        </div>
+        <div class="book">
+          <div class="book-title">Game of Thrones 2: Electric Boogaloo</div>
+          <div class="book-author"><i>George R.R. Martin</i></div>
+          <div class="book-bottom">
+            <div class="book-pages">343 p.</div>
+            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
+            <button type="button" class="book-status btn">READ</button>
+            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
+          </div>
+        </div>
+        <div class="book">
+          <div class="book-title">Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo</div>
+          <div class="book-author"><i>George R.R. Martin</i></div>
+          <div class="book-bottom">
+            <div class="book-pages">343 pages</div>
+            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
+            <button type="button" class="book-status btn">READ</button>
+            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
+          </div>
+        </div>
 
+        
       </div>
     </div>
+    
     <footer>
       <div class="footer">
-        <p><i>Click the eye-con below to visit my GitHub.
+        <p><i>Click the eye-con below to visit my GitHub and view other projects.
         <br>
         (opens in a new tab)</i></p>
         <a href="https://github.com/thatblindgeye" aria-label="github.com/thatblindgeye" target="_blank"><img src="images/profile-icon.png" class="profile-icon" alt="an image link of an eye with a purple iris"></a>
         </div>
     </footer>
-
     <script src="script.js"></script>
   </body>
 </html>
