@@ -1,5 +1,7 @@
 "use strict";
+const newBtn = document.querySelector(".new-btn");
 const addBtn = document.querySelector(".add-btn");
+const closeBtn = document.querySelector(".close-btn");
 const editBtn = document.querySelector(".edit-book");
 const deleteBtn = document.querySelector(".delete-book");
 const resetBtn = document.querySelector(".reset-btn");
@@ -32,7 +34,6 @@ function toggleOptions() {
       optionsToggle.innerHTML = '<b>SHOW LIBRARY OPTIONS<i class="material-icons">arrow_drop_down</i><b>';
       visibility = false;
     }
-
 }
 
 function resetOptions() {
@@ -44,20 +45,22 @@ function resetOptions() {
 
 function toggleScrollBtn() {
   const libraryContainer = document.querySelector(".library-container");
-  if (document.body.scrollWidth < 710 && window.pageYOffset > libraryContainer.offsetTop || 
-    document.body.scrollWidth > 710 && window.pageYOffset > 765) {
+  if (document.body.scrollWidth < 650 && window.pageYOffset > libraryContainer.offsetTop || 
+    document.body.scrollWidth > 650 && window.pageYOffset > 765) {
     document.querySelector(".scroll-btn").style.display = "block";
+    document.querySelector(".scroll-btn").style.top = "0";
   } else {
     document.querySelector(".scroll-btn").style.display = "none";
+    document.querySelector(".scroll-btn").style.top = "-150px";
   }
 }
 
 window.addEventListener("scroll", toggleScrollBtn)
 
 window.addEventListener("resize", () => {
-  if (document.body.scrollWidth < 710 && visibility === false) {
+  if (document.body.scrollWidth < 650 && visibility === false) {
     document.querySelector(".options-container").style.display = "none";
-  } else if (document.documentElement.scrollWidth >= 710) {
+  } else if (document.documentElement.scrollWidth >= 650) {
     document.querySelector(".options-container").style.display = "flex";
   }
 })
@@ -80,19 +83,18 @@ scrollBtn.addEventListener("click", () => {
   document.documentElement.scrollTop = 0;
 })
 
-document.querySelector(".book").addEventListener("click", () => {
-  if (document.querySelector(".book").style.backgroundImage === "none") {
-    document.querySelector(".book").style.backgroundImage = "url('https://upload.wikimedia.org/wikipedia/en/e/e0/Game_of_Thrones_Season_8.png')";
-    document.querySelector(".book-title").style.display = "none";
-    document.querySelector(".book-author").style.display = "none";
-    document.querySelector(".book-bottom").style.display = "none";
-  } else {
-    document.querySelector(".book").style.backgroundImage = "none";
-    document.querySelector(".book-title").style.display = "block";
-    document.querySelector(".book-author").style.display = "block";
-    document.querySelector(".book-bottom").style.display = "flex";
-  }
+newBtn.addEventListener("click", () => {
+  document.querySelector(".modal-container").style.display = "block";
+})
 
+document.querySelector(".modal-container").addEventListener("click", () => {
+  document.querySelector(".modal-container").style.display = "none";
+})
+closeBtn.addEventListener("click", () => {
+  document.querySelector(".modal-container").style.display = "none";
+})
+document.querySelector(".add-modal").addEventListener("click", (e) => {
+  e.stopPropagation();
 })
 
 statusBtn.addEventListener("click", (e) => {
