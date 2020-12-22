@@ -14,10 +14,16 @@ html {
 
 .theme-dark {
   --page-bg: rgb(18, 18, 18);
+  --modal-shadow: none;
+  --read-book: rgb(61, 113, 255);
+  --unread-book: rgb(124, 157, 248);
 }
 
 .theme-light {
   --page-bg: rgb(240, 240, 240);
+  --modal-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.8);
+  --read-book: rgb(25, 0, 255);
+  --unread-book: rgb(74, 65, 158);
 }
 
 body {
@@ -44,9 +50,10 @@ h1 {
 
 .scroll-btn {
   z-index: 1;
+  display: none;
   position: fixed;
   width: 100vw;
-  top: -150px;
+  top: 0;
   padding-bottom: 10px;
   font-size: 1rem;
   background-color: rgb(110, 177, 231);
@@ -62,45 +69,48 @@ h1 {
   display: none;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.3);
+  background-color: rgba(0, 0, 0, 0.4);
+  overflow: auto;
 }
 
 .add-modal {
   z-index: 3;
   position: absolute;
   width: 80%;
-  top: 25px;
+  top: 58px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.8);
+  box-shadow: var(--modal-shadow);
   background-color: rgb(0, 201, 60);
+}
+
+.modal-header {
+  margin-top: 30px;
+  text-align: center;
 }
 
 .close-btn {
   position: absolute;
-  right: 0;
-  margin: 10px;
+  right: 5px;
+  top: 5px;
   background-color: transparent;
 }
 
 .close-btn .material-icons {
-  font-size: 20px;
-  transition: transform 0.2s;
+  font-size: 24px;
+  opacity: 0.5;
+  transition: opacity 0.2s;
 }
 
 .close-btn:hover .material-icons {
-  transform: scale(1.5);
+  opacity: 1;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  margin: 50px 0 20px;
+  margin: 30px 0 20px;
   padding: 0 20px;
-}
-
-form label {
-  font-size: 0.9rem;
 }
 
 form input {
@@ -112,7 +122,7 @@ form input {
 }
 
 form select {
-  width: 6rem;
+  width: 9rem;
   height: 2rem;
   margin-top: 5px;
   font-size: 0.9rem;
@@ -120,6 +130,15 @@ form select {
 
 .add-btn {
   margin: auto;
+}
+
+label {
+  font-size: 0.9rem;
+  font-weight: bold;
+}
+
+select {
+  padding-left: 5px;
 }
 
 .main-bar {
@@ -177,6 +196,7 @@ form select {
 .options-toggle {
   margin: 40px auto 0;
   font-size: 0.9rem;
+  font-weight: bold;
   background-color: transparent;
   text-transform: uppercase;
 }
@@ -200,7 +220,7 @@ form select {
   max-width: 400px;
   height: 2rem;
   margin-top: 5px;
-  padding-left: 5px;
+  padding: 0 10px;
   border: 1px solid black;
   font-size: 1rem;
 }
@@ -209,7 +229,6 @@ form select {
   width: 5rem;
   height: 2rem;
   margin-top: 10px;
-  padding-left: 5px;
   font-size: 1rem;
 }
 
@@ -221,13 +240,8 @@ form select {
 #status-filter {
   max-width: 10rem;
   height: 2rem;
-  margin-top: 30px;
-  padding-left: 5px;
+  margin: 30px 0 50px;
   font-size: 1rem;
-}
-
-label[for="sort-dropdown"] {
-  margin-top: 50px;
 }
 
 #sort-dropdown {
@@ -262,6 +276,7 @@ label[for="sort-dropdown"] {
   width: 100%;
   max-height: 140px;
   font-size: 1.25rem;
+  font-weight: bold;
   text-align: center;
   overflow: hidden;
 }
@@ -271,11 +286,12 @@ label[for="sort-dropdown"] {
   height: 50px;
   margin-top: 20px;
   font-size: 1rem;
+  font-style: italic;
   text-align: center;
   overflow: hidden;
 }
 
-.book-bottom {
+.book-footer {
   position: absolute;
   display: flex;
   flex-wrap: wrap;
@@ -318,7 +334,6 @@ label[for="sort-dropdown"] {
   padding: 0 10px;
   font-size: 1rem;
   text-align: center;
-  font-weight: bold;
   border: 1px solid black;
   border-bottom: 4px solid red;
   border-start-end-radius: 15px;
@@ -328,7 +343,6 @@ label[for="sort-dropdown"] {
 
 .footer {
   display: flex;
-  flex-direction: column;
   justify-content: center;
   align-items: center;
   width: 100%;
@@ -337,9 +351,10 @@ label[for="sort-dropdown"] {
 }
 
 .footer > p {
+  margin-right: 30px;
   color: var(--main-font);
   font-size: 0.8rem;
-  text-align: center;
+  text-align: right;
   line-height: 1.5;
 }
 
@@ -347,8 +362,6 @@ label[for="sort-dropdown"] {
 a {
   display: block;
   width: 75px;
-  height: auto;
-  margin: 10px auto 0;
   transition: transform 0.1s;
 }
 

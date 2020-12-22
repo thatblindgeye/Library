@@ -1,20 +1,16 @@
 "use strict";
-const newBtn = document.querySelector(".new-btn");
 const addBtn = document.querySelector(".add-btn");
-const closeBtn = document.querySelector(".close-btn");
 const editBtn = document.querySelector(".edit-book");
-const deleteBtn = document.querySelector(".delete-book");
-const resetBtn = document.querySelector(".reset-btn");
-const scrollBtn = document.querySelector(".scroll-btn");
+const newBtn = document.querySelector(".new-btn");
 const statusBtn = document.querySelector(".book-status");
 
+const libraryContainer = document.querySelector(".library-container");
+const optionsContainer = document.querySelector(".options-container");
 const searchBox = document.getElementById("search");
 const searchDropdown = document.getElementById("search-type");
 const sortDropdown = document.getElementById("sort-dropdown");
 const statusDropdown = document.getElementById("status-filter");
-const optionsToggle = document.querySelector(".options-toggle");
 const themeSelect = document.getElementById("theme-dropdown");
-let visibility = false;
 
 function toggleTheme() {
   if (themeSelect.value === "dark") {
@@ -24,16 +20,35 @@ function toggleTheme() {
   }
 }
 
-function toggleOptions() {
-    if (visibility === false) {
-      document.querySelector(".options-container").style.display = "flex";
-      optionsToggle.innerHTML = '<b>HIDE LIBRARY OPTIONS<i class="material-icons">arrow_drop_up</i><b>';
-      visibility = true;
-    } else if (visibility === true) {
-      document.querySelector(".options-container").style.display = "none";
-      optionsToggle.innerHTML = '<b>SHOW LIBRARY OPTIONS<i class="material-icons">arrow_drop_down</i><b>';
-      visibility = false;
+function toggleOptions(e) {
+  if (e.type === "resize") {
+    if (document.body.scrollWidth < 650) {
+      optionsContainer.style.display = "";
+      document.querySelector(".arrow").textContent = "arrow_drop_down";
+    } else {
+      optionsContainer.style.display = "flex";
     }
+  } else {
+    if (optionsContainer.style.display === "") {
+      optionsContainer.style.display = "flex";
+      document.querySelector(".arrow").textContent = "arrow_drop_up";
+    } else {
+      optionsContainer.style.display = "";
+      document.querySelector(".arrow").textContent = "arrow_drop_down";
+    }
+  }
+}
+
+function displayModal(e) {
+  if (e.target.className.includes("new-btn")) {
+    document.querySelector(".modal-container").style.display = "block";
+    document.querySelector(".modal-description").innerText = "Add a Book";
+    addBtn.textContent = "Add";
+  } else if (e.target.parentElement.className.includes("edit-book")) {
+    document.querySelector(".modal-container").style.display = "block";
+    document.querySelector(".modal-description").innerText = "Edit a Book";
+    addBtn.textContent = "Update";
+  }
 }
 
 function resetOptions() {
@@ -44,67 +59,120 @@ function resetOptions() {
 }
 
 function toggleScrollBtn() {
-  const libraryContainer = document.querySelector(".library-container");
+  let resetBtn = document.querySelector(".reset-btn");
   if (document.body.scrollWidth < 650 && window.pageYOffset > libraryContainer.offsetTop || 
-    document.body.scrollWidth > 650 && window.pageYOffset > 765) {
+    document.body.scrollWidth > 650 && window.pageYOffset > (resetBtn.offsetTop + 50)) {
     document.querySelector(".scroll-btn").style.display = "block";
-    document.querySelector(".scroll-btn").style.top = "0";
   } else {
-    document.querySelector(".scroll-btn").style.display = "none";
-    document.querySelector(".scroll-btn").style.top = "-150px";
+    document.querySelector(".scroll-btn").style.display = "";
   }
 }
 
-window.addEventListener("scroll", toggleScrollBtn)
+function addBook() {
+  alert("ADDED");
+}
 
-window.addEventListener("resize", () => {
-  if (document.body.scrollWidth < 650 && visibility === false) {
-    document.querySelector(".options-container").style.display = "none";
-  } else if (document.documentElement.scrollWidth >= 650) {
-    document.querySelector(".options-container").style.display = "flex";
+function updateBook() {
+  alert("UPDATED");
+}
+
+function updateStatus() {
+  if (statusBtn.textContent === "READ") {
+    statusBtn.textContent = "UNREAD";
+    statusBtn.style.backgroundColor = "var(--unread-book)";
+  } else if (statusBtn.textContent === "UNREAD") {
+    statusBtn.textContent = "READ";
+    statusBtn.style.backgroundColor = "var(--read-book)";
   }
+}
+
+// separate title/author with tags, so that tags can be iterated over an array of tag props
+function filterSearch() {
+  let criteria = searchBox.value.toLowerCase();
+  let filter = searchDropdown.value;
+  if (criteria.trim() === "" || document.querySelector(".book-" + `${filter}`).textContent.toLowerCase().includes(criteria.trim())) {
+    document.querySelector(".book").style.opacity = "1";
+  } else if (!document.querySelector(".book-" + `${filter}`).textContent.toLowerCase().includes(criteria)) {
+    document.querySelector(".book").style.opacity = "0";
+  }
+}
+
+function filterStatus() {
+  let filter = statusDropdown.value;
+}
+
+function sortLibrary() {
+  
+}
+/*
+Use ARRAY.forEach((item) => {
+item.filterType
 })
+
+for searching an objects values
+*/
 
 window.addEventListener("load", () => {
   toggleTheme();
-  toggleScrollBtn();
-  if (document.documentElement.scrollWidth >= 710) {
-    document.querySelector(".options-container").style.display = "flex";
+  if (document.documentElement.scrollWidth >= 650) {
+    optionsContainer.style.display = "flex";
   }
 })
 
+window.addEventListener("scroll", toggleScrollBtn)
+
+// Events for showing/hiding the Library Options
+window.addEventListener("resize", (e) => {
+  toggleOptions(e);
+})
+document.querySelector(".options-toggle").addEventListener("click", toggleOptions)
+
+
+
 themeSelect.addEventListener("change", toggleTheme)
 
-optionsToggle.addEventListener("click", toggleOptions)
 
-resetBtn.addEventListener("click", resetOptions)
 
-scrollBtn.addEventListener("click", () => {
+document.querySelector(".reset-btn").addEventListener("click", () => {
+  resetOptions();
+  filterSearch();
+  filterStatus();
+  sortLibrary();
+})
+
+document.querySelector(".scroll-btn").addEventListener("click", () => {
   document.documentElement.scrollTop = 0;
 })
 
-newBtn.addEventListener("click", () => {
-  document.querySelector(".modal-container").style.display = "block";
+newBtn.addEventListener("click", (e) => {
+  displayModal(e);
+})
+
+editBtn.addEventListener("click", (e) => {
+  displayModal(e);
 })
 
 document.querySelector(".modal-container").addEventListener("click", () => {
   document.querySelector(".modal-container").style.display = "none";
 })
-closeBtn.addEventListener("click", () => {
+document.querySelector(".close-btn").addEventListener("click", () => {
   document.querySelector(".modal-container").style.display = "none";
 })
 document.querySelector(".add-modal").addEventListener("click", (e) => {
   e.stopPropagation();
 })
 
-statusBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
+addBtn.addEventListener("click", () => {
+  if(addBtn.textContent === "Add") {
+    addBook();
+  } else if (addBtn.textContent === "Update") {
+    updateBook();
+  }
 })
 
-editBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-})
+searchBox.addEventListener("keyup", filterSearch)
 
-deleteBtn.addEventListener("click", (e) => {
-  e.stopPropagation();
-})
+statusDropdown.addEventListener("change", filterStatus)
+
+statusBtn.addEventListener("click", updateStatus)
+

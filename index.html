@@ -10,24 +10,33 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <button type="button" class="scroll-btn btn">
+      <i class="material-icons">arrow_upward</i>
+      <br>
+      Back to Top
+    </button>
     <div class="modal-container">
       <div class="add-modal">
-        <button type="button" class="close-btn btn"><i class="material-icons">close</i></button>
+        <div class="modal-header">
+          <h2 class="modal-description"></h2>
+          <button type="button" class="close-btn btn"><i class="material-icons">close</i></button>
+        </div>
         <form>
-          <label for="title"><b>Title (required)</b></label>
-          <input type="text" id="title">
-          <label for="author"><b>Author</b></label>
-          <input type="text" id="author">
-          <label for="pages"><b>Total Pages</b></label>
-          <input type="number" id="pages">
-          <label for="read-status"><b>Have you read this book?</b></label>
+          <label for="form-title">Title (required)</label>
+          <input type="text" id="form-title">
+          <label for="form-author">Author</label>
+          <input type="text" id="form-author">
+          <label for="form-pages">Total Pages</label>
+          <input type="number" id="form-pages">
+          <label for="form-status">Book Status (required)</label>
           <br>
-          <select id="read-status" name="read-status">
+          <select id="form-status" name="form-status">
+            <option value="default">Select a status</option>
             <option value="read">Read</option>
             <option value="unread">Unread</option>
           </select>
           <br>
-          <button type="button" class="add-btn btn">Add Book</button>
+          <button type="button" class="add-btn btn"></button>
         </form>
       </div>
     </div>
@@ -56,10 +65,10 @@
           <button type="button" class="new-btn btn">New Book</button>
         </div>
         <button type="button" class="options-toggle btn">
-          <b>Show Library Options<i class="material-icons">arrow_drop_down</i></b>
+          LIBRARY OPTIONS <i class="material-icons arrow">arrow_drop_down</i>
         </button>
         <div class="options-container">
-            <label for="search"><b>Filter:</b></label>
+            <label for="search">Filter:</label>
             <br>
             <input id="search" type="search" placeholder="title, author, or tags">
             <select id="search-type" name="search-type">
@@ -71,9 +80,9 @@
             <select id="status-filter" name="status-filter">
               <option value="all">Read + Unread</option>
               <option value="read">Read Only</option>
-              <option value="not read">Unread Only</option>
+              <option value="unread">Unread Only</option>
             </select>
-            <label for="sort-dropdown"><b>Sort:</b></label>
+            <label for="sort-dropdown">Sort:</label>
             <br>
             <select id="sort-dropdown" name="sort-dropdown">
               <option value="added newest">Date Added (newest first)</option>
@@ -85,61 +94,30 @@
             </select>
           <button type="button" class="reset-btn btn">Reset Options</button>
         </div>
-        <button type="button" class="scroll-btn btn">
-        <i class="material-icons">arrow_upward</i>
-        <br>
-        Back to Top
-        </button>
       </div>
       <div class="library-container">
         <div class="book">
           <div class="book-title">Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo</div>
-          <div class="book-author"><i>George R.R. Martin</i></div>
-          <div class="book-bottom">
+          <div class="book-author">George R.R. Martin</div>
+          <div class="book-footer">
             <div class="book-pages">343 pages</div>
-            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
-            <button type="button" class="book-status btn">UNREAD</button>
-            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
+            <button type="button" class="edit-book btn">
+              <i class="material-icons" title="Edit book">edit</i>
+            </button>
+            <button type="button" class="book-status btn">READ</button>
+            <button type="button" class="delete-book btn">
+              <i class="material-icons" title="Delete book">delete</i>
+            </button>
           </div>
         </div>
-        <div class="book">
-          <div class="book-title">Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo</div>
-          <div class="book-author"><i>George R.R. Martin</i></div>
-          <div class="book-bottom">
-            <div class="book-pages">343 pages</div>
-            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
-            <button type="button" class="book-status btn">READ</button>
-            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
-          </div>
-        </div>  
-        <div class="book">
-          <div class="book-title">Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo</div>
-          <div class="book-author"><i>George R.R. Martin</i></div>
-          <div class="book-bottom">
-            <div class="book-pages">343 pages</div>
-            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
-            <button type="button" class="book-status btn">READ</button>
-            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
-          </div>
-        </div>  
-        <div class="book">
-          <div class="book-title">Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo</div>
-          <div class="book-author"><i>George R.R. Martin</i></div>
-          <div class="book-bottom">
-            <div class="book-pages">343 pages</div>
-            <button type="button" class="edit-book btn"><i class="material-icons" title="Edit book">edit</i></button>
-            <button type="button" class="book-status btn">READ</button>
-            <button type="button" class="delete-book btn"><i class="material-icons" title="Delete book">delete</i></button>
-          </div>
-        </div>        
       </div>
     </div>
     <footer>
       <div class="footer">
-        <p><i>Click the eye-con below to visit my GitHub and view other projects.
+        <p><i>Created by thatblindgeye, for The Odin Project.
         <br>
-        (opens in a new tab)</i></p>
-        <a href="https://github.com/thatblindgeye" aria-label="github.com/thatblindgeye" target="_blank"><img src="images/profile-icon.png" class="profile-icon" alt="an image link of an eye with a purple iris"></a>
+        Click the eye-con to visit my Github (opens in a new tab)</i></p>
+        <a href="https://github.com/thatblindgeye" aria-label="Visit my Github" target="_blank"><img src="images/profile-icon.png" class="profile-icon" alt="an image link of an eye with a purple iris"></a>
         </div>
     </footer>
     <script src="script.js"></script>
