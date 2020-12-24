@@ -5,100 +5,121 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Digital Library</title>
     <meta name="keywords" content="library, books, bookshelf" />
-    <meta name="description" content="A digital library to keep track of all of your read and unread books." />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <meta
+      name="description"
+      content="A digital library to keep track of all of your read and unread books."
+    />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+    />
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
     <button type="button" class="scroll-btn btn">
       <i class="material-icons">arrow_upward</i>
-      <br>
+      <br />
       Back to Top
     </button>
     <div class="modal-container">
       <div class="add-modal">
         <div class="modal-header">
           <h2 class="modal-description"></h2>
-          <button type="button" class="close-btn btn"><i class="material-icons">close</i></button>
+          <button type="button" class="close-btn btn">
+            <i class="material-icons">close</i>
+          </button>
         </div>
         <form>
           <label for="form-title">Title (required)</label>
-          <input type="text" id="form-title">
+          <input type="text" id="form-title" />
           <label for="form-author">Author</label>
-          <input type="text" id="form-author">
+          <input type="text" id="form-author" />
           <label for="form-pages">Total Pages</label>
-          <input type="number" id="form-pages">
+          <input type="number" id="form-pages" />
+          <label for="form-tags">Tags</label>
+          <input
+            type="text"
+            id="form-tags"
+            placeholder="separate each with a comma"
+          />
           <label for="form-status">Book Status (required)</label>
-          <br>
+          <br />
           <select id="form-status" name="form-status">
             <option value="default">Select a status</option>
             <option value="read">Read</option>
             <option value="unread">Unread</option>
           </select>
-          <br>
-          <button type="button" class="add-btn btn"></button>
+          <br />
+          <button type="button" class="add-btn btn" data-libraryIndex="" data-bookshelfIndex="" data-idParam=""></button>
         </form>
       </div>
     </div>
     <header>
       <h1>Digital Library</h1>
-        <select id="theme-dropdown" name="theme-dropdown">
-          <option value="dark">Dark Theme</option>
-          <option value="light">Light Theme</option>
-        </select>
+      <select id="theme-dropdown" name="theme-dropdown">
+        <option value="dark">Dark Theme</option>
+        <option value="light">Light Theme</option>
+      </select>
     </header>
     <div class="main-container">
       <div class="main-bar">
         <div class="info-container">
           <div class="stats">
             <div class="stat-title"><b>Read Books:</b></div>
-            <div class="books-read">0</div>
+            <div class="read-amount">0</div>
           </div>
           <div class="stats">
             <div class="stat-title"><b>Unread Books:</b></div>
-            <div class="books-unread">0</div>
+            <div class="unread-amount">0</div>
           </div>
           <div class="stats">
             <div class="stat-title"><b>Total Books:</b></div>
-            <div class="books-total">0</div>
+            <div class="total-amount">0</div>
           </div>
           <button type="button" class="new-btn btn">New Book</button>
         </div>
         <button type="button" class="options-toggle btn">
           LIBRARY OPTIONS <i class="material-icons arrow">arrow_drop_down</i>
         </button>
-        <div class="options-container">
-            <label for="search">Filter:</label>
-            <br>
-            <input id="search" type="search" placeholder="title, author, or tags">
-            <select id="search-type" name="search-type">
-              <option value="title">Title</option>
-              <option value="author">Author</option>
-              <option value="tags">Tags</option>
-            </select>
-            <p><i>use commas to separate tags, i.e. "sci-fi, reread, favorite"</i></p>
-            <select id="status-filter" name="status-filter">
-              <option value="all">Read + Unread</option>
-              <option value="read">Read Only</option>
-              <option value="unread">Unread Only</option>
-            </select>
-            <label for="sort-dropdown">Sort:</label>
-            <br>
-            <select id="sort-dropdown" name="sort-dropdown">
-              <option value="added newest">Date Added (newest first)</option>
-              <option value="added oldest">Date Added (oldest first)</option>
-              <option value="title a to z">Title (a to z)</option>
-              <option value="title z to a">Title (z to a)</option>
-              <option value="author a to z">Author (a to z)</option>
-              <option value="author z to a">Author (z to a)</option>
-            </select>
+        <div class="options-container hidden">
+          <label for="search">Filter:</label>
+          <br />
+          <input
+            id="search"
+            type="search"
+            placeholder="title, author, or tags"
+          />
+          <select id="search-type" name="search-type">
+            <option value="title">Title</option>
+            <option value="author">Author</option>
+            <option value="tags">Tags</option>
+          </select>
+          <p>
+            <i>use commas to separate tags, i.e. "sci-fi, reread, favorite"</i>
+          </p>
+          <select id="status-filter" name="status-filter">
+            <option value="all">Read + Unread</option>
+            <option value="read">Read Only</option>
+            <option value="unread">Unread Only</option>
+          </select>
+          <label for="sort-dropdown">Sort:</label>
+          <br />
+          <select id="sort-dropdown" name="sort-dropdown">
+            <option value="added newest">Date Added (newest first)</option>
+            <option value="added oldest">Date Added (oldest first)</option>
+            <option value="title a to z">Title (a to z)</option>
+            <option value="title z to a">Title (z to a)</option>
+            <option value="author a to z">Author (a to z)</option>
+            <option value="author z to a">Author (z to a)</option>
+          </select>
           <button type="button" class="reset-btn btn">Reset Options</button>
         </div>
       </div>
-      <div class="library-container">
-        <div class="book">
-          <div class="book-title">Game of Thrones 2: Electric Boogaloo Game of Thrones 2: Electric Boogaloo</div>
-          <div class="book-author">George R.R. Martin</div>
+      <div class="bookshelf">
+        <!--
+        <div class="book" data-id="456">
+          <div class="book-title">LOTR</div>
+          <div class="book-author">Someone</div>
           <div class="book-footer">
             <div class="book-pages">343 pages</div>
             <button type="button" class="edit-book btn">
@@ -110,15 +131,28 @@
             </button>
           </div>
         </div>
+         -->
       </div>
     </div>
     <footer>
       <div class="footer">
-        <p><i>Created by thatblindgeye, for The Odin Project.
-        <br>
-        Click the eye-con to visit my Github (opens in a new tab)</i></p>
-        <a href="https://github.com/thatblindgeye" aria-label="Visit my Github" target="_blank"><img src="images/profile-icon.png" class="profile-icon" alt="an image link of an eye with a purple iris"></a>
-        </div>
+        <p>
+          <i
+            >Created by thatblindgeye, for The Odin Project.
+            <br />
+            Click the eye-con to visit my Github (opens in a new tab)</i
+          >
+        </p>
+        <a
+          href="https://github.com/thatblindgeye"
+          aria-label="Visit my Github"
+          target="_blank"
+          ><img
+            src="images/profile-icon.png"
+            class="profile-icon"
+            alt="an image link of an eye with a purple iris"
+        /></a>
+      </div>
     </footer>
     <script src="script.js"></script>
   </body>
