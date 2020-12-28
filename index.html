@@ -37,20 +37,12 @@
           <label for="form-pages">Total Pages</label>
           <input type="number" id="form-pages" />
           <label for="form-tags">Tags</label>
-          <input
-            type="text"
-            id="form-tags"
-            placeholder="separate each with a comma"
-          />
-          <label for="form-status">Book Status (required)</label>
-          <br />
-          <select id="form-status" name="form-status">
-            <option value="default">Select a status</option>
-            <option value="read">Read</option>
-            <option value="unread">Unread</option>
-          </select>
-          <br />
-          <button type="button" class="add-btn btn" data-libraryIndex="" data-bookshelfIndex="" data-idParam=""></button>
+          <input type="text" id="form-tags" placeholder="separate each with a comma" />
+          <span>
+            <input type="checkbox" id="form-status">
+            <label for="form-status">I've read this book</label>
+          </span>
+          <button type="button" class="add-btn btn"></button>
         </form>
       </div>
     </div>
@@ -66,15 +58,15 @@
         <div class="info-container">
           <div class="stats">
             <div class="stat-title"><b>Read Books:</b></div>
-            <div class="read-amount">0</div>
+            <div class="read-amount"></div>
           </div>
           <div class="stats">
             <div class="stat-title"><b>Unread Books:</b></div>
-            <div class="unread-amount">0</div>
+            <div class="unread-amount"></div>
           </div>
           <div class="stats">
             <div class="stat-title"><b>Total Books:</b></div>
-            <div class="total-amount">0</div>
+            <div class="total-amount"></div>
           </div>
           <button type="button" class="new-btn btn">New Book</button>
         </div>
@@ -105,8 +97,8 @@
           <label for="sort-dropdown">Sort:</label>
           <br />
           <select id="sort-dropdown" name="sort-dropdown">
-            <option value="added newest">Date Added (newest first)</option>
-            <option value="added oldest">Date Added (oldest first)</option>
+            <option value="newest">Date Added (newest first)</option>
+            <option value="oldest">Date Added (oldest first)</option>
             <option value="title a to z">Title (a to z)</option>
             <option value="title z to a">Title (z to a)</option>
             <option value="author a to z">Author (a to z)</option>
