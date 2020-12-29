@@ -22,7 +22,7 @@ function Book(title, author, pages, tags, status) {
   this.title = titleInput.value,
   this.author = authorInput.value,
   this.pages = pageInput.value,
-  this.tags = tagsInput.value.toLowerCase().replace(/,\s/g, ",").split(","),
+  this.tags = tagsInput.value.toLowerCase().replace(/(\s,\s|,\s|\s,|,)/g, ",").split(","),
   this.read = statusInput.checked,
   this.id = uniqueId;
 }
@@ -33,7 +33,7 @@ function addToLibrary() {
   myLibrary.unshift(newBook);
 }
 
-function addToBookshelf(indexA) {
+function addToBookshelf(indexA, indexB) {
   const bookDiv = document.createElement("div");
   const titleDiv = document.createElement("div");
   const authorDiv = document.createElement("div");
@@ -54,7 +54,11 @@ function addToBookshelf(indexA) {
   bookDiv.appendChild(titleDiv);
 
   authorDiv.classList.add("book-author");
-  authorDiv.textContent = myLibrary[indexA].author;
+  if (myLibrary[indexA].author === "") {
+    authorDiv.textContent = "";
+  } else {
+    authorDiv.textContent = "by " + myLibrary[indexA].author;
+  }
   bookDiv.appendChild(authorDiv);
 
   tagsDiv.classList.add("tags");
@@ -74,7 +78,7 @@ function addToBookshelf(indexA) {
 
   editButton.classList.add("edit-book", "btn");
   editButton.setAttribute("type", "button");
-  editIcon.classList.add("material-icons");
+  editIcon.classList.add("material-icons", "edit-icon");
   editIcon.setAttribute("title", "Edit book");
   editIcon.textContent = "edit";
   editIcon.setAttribute("data-id", myLibrary[indexA].id);
@@ -95,7 +99,7 @@ function addToBookshelf(indexA) {
 
   deleteButton.classList.add("delete-book", "btn");
   deleteButton.setAttribute("type", "button");
-  deleteIcon.classList.add("material-icons");
+  deleteIcon.classList.add("material-icons", "delete-icon");
   deleteIcon.setAttribute("title", "Delete book");
   deleteIcon.textContent = "delete";
   deleteIcon.setAttribute("data-id", myLibrary[indexA].id);
@@ -103,7 +107,7 @@ function addToBookshelf(indexA) {
   footerDiv.appendChild(deleteButton);
 
   bookDiv.appendChild(footerDiv);
-  bookshelf.appendChild(bookDiv);
+  bookshelf.insertBefore(bookDiv, bookshelf.children[indexB]);
 }
 
 // find and store the myLibrary index of the book whose edit/read status/delete button is clicked
@@ -141,8 +145,8 @@ function updateBook() {
 
   myLibrary[libraryIndex].title = titleInput.value;
   myLibrary[libraryIndex].author = authorInput.value;
-  myLibrary[libraryIndex].tags = tagsInput.value.replace(/,\s/g, ",").split(",");
-  myLibrary[libraryIndex].pages = pageInput.value + " pages";
+  myLibrary[libraryIndex].tags = tagsInput.value.replace(/\s,\s|,\s|\s,|,/g, ",").split(",");
+  myLibrary[libraryIndex].pages = pageInput.value;
   myLibrary[libraryIndex].read = statusInput.checked;
 
   addToBookshelf(libraryIndex, bookshelfIndex);
@@ -262,7 +266,7 @@ function toggleScrollBtn() {
 
 
 function filterSearch() {
-  let criteria = searchBox.value.toLowerCase().replace(/,\s/g, ",");
+  const criteria = searchBox.value.toLowerCase();
   Array.from(bookshelf.children).forEach((item) => {
     if (searchDropdown.value === "title") {
       if (criteria.trim() === "" || item.children[0].textContent.toLowerCase().includes(criteria)) {
@@ -277,10 +281,22 @@ function filterSearch() {
         item.style.display = "none";
       }
     } else if (searchDropdown.value === "tags") {
-      if (criteria.trim() === "" || item.children[2].textContent.toLowerCase().includes(criteria)) {
+      let everyTag = criteria.replace(/(\s\+\s|\+\s|\s\+|\+)/g, "+").split("+");
+      let someTags = criteria.replace(/(\s,\s|,\s|\s,|,)/g, ",").split(",");
+      if (criteria.trim() === "") {
         item.style.display = "block";
-      } else {
-        item.style.display = "none";
+      } else if (criteria.includes("+") || !criteria.includes(",") && !criteria.includes("+")) {
+        if (everyTag.every(i => item.children[2].textContent.includes(i))) {
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
+      } else if (criteria.includes(",")) {
+        if (someTags.some(i => item.children[2].textContent.includes(i))) {
+          item.style.display = "block";
+        } else {
+          item.style.display = "none";
+        }
       }
     }
   });
@@ -302,11 +318,9 @@ function filterStatus() {
 function sortLibrary() {
   let sortOption = sortDropdown.selectedIndex;
   let i;
-
   while (bookshelf.firstChild) {
     bookshelf.removeChild(bookshelf.firstChild);
   };
-
   switch(sortOption) {
     case 0:
       myLibrary.sort((a, b) => {
@@ -391,7 +405,7 @@ function clearForm() {
   statusInput.checked = false;
 }
 
-function updateStats() {
+function updateTotals() {
   let x = 0;
   document.querySelector(".total-amount").textContent = myLibrary.length;
   myLibrary.forEach((item) => {
@@ -403,29 +417,61 @@ function updateStats() {
   document.querySelector(".unread-amount").textContent = myLibrary.length - x;
 }
 
+function setStorage() {
+  localStorage.setItem("library", JSON.stringify(myLibrary));
+  if (myLibrary.length === 0) {
+    uniqueId = 1;
+  }
+  localStorage.setItem("uniqueId", uniqueId);
+  localStorage.setItem("theme", themeSelect.value)
+}
+
+function getStorage() {
+  myLibrary = JSON.parse(localStorage.getItem("library"));
+  sortLibrary();
+  uniqueId = parseInt(localStorage.getItem("uniqueId"));
+  themeSelect.value = localStorage.getItem("theme");
+  toggleTheme();
+
+
+  /*
+  if (!localStorage.getItem("uniqueId")) {
+    uniqueId = 1;
+  } else {
+    uniqueId = localStorage.getItem("uniqueId");
+  }
+  themeSelect.value = localStorage.getItem("theme");
+  toggleTheme();
+  */
+}
+
 
 window.addEventListener("load", () => {
-  toggleTheme();
-  resetOptions();
-  updateStats();
   if (document.documentElement.scrollWidth >= 650) {
     options.style.display = "flex";
+  };
+  resetOptions();
+  if (localStorage.length === 0) {
+    themeSelect.value = "dark";
+    toggleTheme();
+  } else {
+    getStorage();
   }
+  updateTotals();
+  clearForm();
 })
 
 window.addEventListener("scroll", toggleScrollBtn)
 
-// Events for showing/hiding the Library Options
 window.addEventListener("resize", (e) => {
   toggleOptions(e);
 })
 document.querySelector(".options-toggle").addEventListener("click", toggleOptions)
 
-
-
-themeSelect.addEventListener("change", toggleTheme)
-
-
+themeSelect.addEventListener("change", () => {
+  toggleTheme();
+  setStorage();
+})
 
 document.querySelector(".reset-btn").addEventListener("click", () => {
   resetOptions();
@@ -446,11 +492,15 @@ document.querySelector(".modal-container").addEventListener("click", () => {
   document.querySelector(".modal-container").style.display = "none";
   clearForm();
   clearDatasets();
+  titleInput.classList.remove("invalid");
+  titleInput.removeAttribute("placeholder");
 })
 document.querySelector(".close-btn").addEventListener("click", () => {
   document.querySelector(".modal-container").style.display = "none";
   clearForm();
   clearDatasets();
+  titleInput.classList.remove("invalid");
+  titleInput.removeAttribute("placeholder");
 })
 document.querySelector(".add-modal").addEventListener("click", (e) => {
   e.stopPropagation();
@@ -461,20 +511,30 @@ addBtn.addEventListener("click", (e) => {
     if (titleInput.value.trim() === "") {
       titleInput.value = "";
       titleInput.focus();
+      titleInput.classList.add("invalid");
+      titleInput.setAttribute("placeholder", "a book title is required");
       return;
     };
     addToLibrary();
     sortLibrary();
     clearForm();
     titleInput.focus();
-    updateStats();
+    updateTotals();
+    setStorage();
   } else if (addBtn.textContent === "Update") {
     findBookshelfIndex();
     updateBook();
     updateStatus(e);
     clearForm();
     clearDatasets();
-    updateStats();
+    updateTotals();
+    setStorage();
+  }
+})
+titleInput.addEventListener("keyup", () => {
+  if (titleInput.value.match(/./)) {
+    titleInput.classList.remove("invalid");
+    titleInput.removeAttribute("placeholder");
   }
 })
 
@@ -490,7 +550,8 @@ bookshelf.addEventListener("click", (e) => {
     findLibraryIndex(e);
     updateStatus(e);
     clearDatasets();
-    updateStats();
+    updateTotals();
+    setStorage();
   } else if (e.target.textContent === "edit") {
     displayModal(e);
     findLibraryIndex(e);
@@ -500,7 +561,8 @@ bookshelf.addEventListener("click", (e) => {
     findBookshelfIndex(e);
     deleteBook(e);
     clearDatasets();
-    updateStats();
+    updateTotals();
+    setStorage();
   }
 })
 

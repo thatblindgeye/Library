@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Digital Library</title>
+    <title>My-brary</title>
     <meta name="keywords" content="library, books, bookshelf" />
     <meta
       name="description"
@@ -39,7 +39,7 @@
           <label for="form-tags">Tags</label>
           <input type="text" id="form-tags" placeholder="separate each with a comma" />
           <span>
-            <input type="checkbox" id="form-status">
+            <input type="checkbox" id="form-status" />
             <label for="form-status">I've read this book</label>
           </span>
           <button type="button" class="add-btn btn"></button>
@@ -47,7 +47,7 @@
       </div>
     </div>
     <header>
-      <h1>Digital Library</h1>
+      <h1>My-brary</h1>
       <select id="theme-dropdown" name="theme-dropdown">
         <option value="dark">Dark Theme</option>
         <option value="light">Light Theme</option>
@@ -74,12 +74,10 @@
           LIBRARY OPTIONS <i class="material-icons arrow">arrow_drop_down</i>
         </button>
         <div class="options-container hidden">
-          <label for="search">Filter:</label>
-          <br />
           <input
             id="search"
             type="search"
-            placeholder="title, author, or tags"
+            placeholder="filter by title, author, or tags"
           />
           <select id="search-type" name="search-type">
             <option value="title">Title</option>
@@ -87,14 +85,16 @@
             <option value="tags">Tags</option>
           </select>
           <p>
-            <i>use commas to separate tags, i.e. "sci-fi, reread, favorite"</i>
+            use commas to filter books that include at least one tag
+            (sci-fi,reread)
           </p>
+          <p>use +'s to filter books that include all tags (sci-fi+reread)</p>
           <select id="status-filter" name="status-filter">
             <option value="all">Read + Unread</option>
             <option value="read">Read Only</option>
             <option value="unread">Unread Only</option>
           </select>
-          <label for="sort-dropdown">Sort:</label>
+          <label for="sort-dropdown">Sort by:</label>
           <br />
           <select id="sort-dropdown" name="sort-dropdown">
             <option value="newest">Date Added (newest first)</option>
@@ -108,22 +108,6 @@
         </div>
       </div>
       <div class="bookshelf">
-        <!--
-        <div class="book" data-id="456">
-          <div class="book-title">LOTR</div>
-          <div class="book-author">Someone</div>
-          <div class="book-footer">
-            <div class="book-pages">343 pages</div>
-            <button type="button" class="edit-book btn">
-              <i class="material-icons" title="Edit book">edit</i>
-            </button>
-            <button type="button" class="book-status btn">READ</button>
-            <button type="button" class="delete-book btn">
-              <i class="material-icons" title="Delete book">delete</i>
-            </button>
-          </div>
-        </div>
-         -->
       </div>
     </div>
     <footer>
