@@ -5,7 +5,4 @@ This is my version of the Library project for The Odin Project.
 In Progress:
 
 1. Add minor touches, such as an error dialogue when trying to add a book with a blank title
-
-To Do:
-
-1. Add proper color schemes for dark and light mode
+2. Add proper color schemes for dark and light mode
