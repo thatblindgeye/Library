@@ -2,7 +2,7 @@
   margin: 0;
   padding: 0;
   border: 0;
-  font-family: Verdana, sans-serif;
+  font-family: "Roboto", Verdana, sans-serif;
   -webkit-box-sizing: border-box;
   box-sizing: border-box;
 }
@@ -14,30 +14,36 @@ html {
 
 .theme-dark {
   --text-main: rgb(241, 241, 241);
-  --text-secondary: rgba(255, 255, 255, 0.8);
-  --header-bg: rgb(41, 41, 41);
-  --bookshelf-bg: rgb(0, 39, 0);
-  --main-bar-bg: rgb(54, 54, 54);
-  --info-bg: rgb(75, 75, 75);
-  --border-main: rgb(87, 87, 87);
-  --border-secondary: rgb(119, 119, 119);
+  --text-secondary: rgba(220, 220, 220, 0.8);
+  --text-invert: rgb(34, 34, 34);
+  --header-bg: rgb(0, 50, 5);
+  --bookshelf-bg: rgb(18, 18, 18);
+  --modal-bg: rgb(22, 37, 22);
+  --book-main: rgb(0, 50, 5);
+  --border-main: rgb(80, 80, 80);
+  --border-secondary: rgb(75, 75, 75);
   --border-invalid: rgb(255, 0, 0);
-  --read-book: rgb(61, 113, 255);
-  --unread-book: rgb(49, 49, 49);
+  --book-status: rgb(29, 139, 55);
+  --button-main: rgb(0, 161, 38);
+  --button-main-hover: rgba(0, 161, 38, 0.8);
+  --input-bg: rgb(75, 75, 75);
 }
 
 .theme-light {
-  --text-main: rgb(34, 34, 34);
-  --text-secondary: rgba(20, 20, 20, 0.9);
-  --header-bg: rgb(255, 255, 255);
-  --bookshelf-bg: rgb(210, 255, 210);
-  --main-bar-bg: rgb(221, 221, 221);
-  --info-bg: rgb(243, 243, 243);
+  --text-main: rgb(18, 18, 18);
+  --text-secondary: rgba(50, 50, 50, 0.9);
+  --text-invert: rgb(240, 240, 240);
+  --header-bg: rgb(69, 233, 85);
+  --bookshelf-bg: rgb(240, 240, 240);
+  --modal-bg: rgb(220, 250, 220);
+  --book-main: rgb(190, 255, 177);
   --border-main: rgb(0, 0, 0);
-  --border-secondary: rgb(59, 59, 59);
+  --border-secondary: rgba(59, 59, 59, 0.6);
   --border-invalid: rgb(223, 0, 0);
-  --read-book: rgb(25, 0, 255);
-  --unread-book: rgb(74, 65, 158);
+  --book-status: rgb(22, 126, 56);
+  --button-main: rgb(26, 134, 62);
+  --button-main-hover: rgba(26, 134, 62, 0.8);
+  --input-bg: rgb(240, 240, 240);
 }
 
 body {
@@ -45,10 +51,10 @@ body {
 }
 
 h1 {
-  padding: 30px 0 30px;
-  text-align: center;
+  padding: 15px 15px 15px;
   color: var(--text-main);
   background-color: var(--header-bg);
+  font-weight: bolder;
 }
 
 #theme-dropdown {
@@ -70,12 +76,26 @@ h1 {
   width: 100vw;
   top: 0;
   padding: 5px;
-  background-color: var(--bookshelf-bg);
+  border-bottom: 1px solid var(--border-main);
+  background-color: var(--header-bg);
 }
 
-.scroll-btn .material-icons {
+.scroll-icon {
   font-size: 3rem;
-  color: var(--text-main);
+  color: var(--button-main);
+}
+
+.scroll-icon:hover {
+  animation: animateBtn 1s linear infinite alternate;
+}
+
+@keyframes animateBtn {
+  from {
+    transform: translateY(0);
+  }
+  to {
+    transform: translateY(-10px);
+  }
 }
 
 .modal-container {
@@ -95,13 +115,17 @@ h1 {
   top: 38px;
   left: 50%;
   transform: translateX(-50%);
-  box-shadow: 0 0 15px 5px rgba(0, 0, 0, 0.8);
-  background-color: rgb(0, 201, 60);
+  box-shadow: 0 0 10px 5px rgba(0, 0, 0, 0.6);
+  background-color: var(--modal-bg);
 }
 
 .modal-header {
   margin-top: 30px;
   text-align: center;
+}
+
+.modal-description {
+  color: var(--text-main);
 }
 
 .close-btn {
@@ -113,7 +137,8 @@ h1 {
 
 .close-btn .material-icons {
   font-size: 24px;
-  opacity: 0.5;
+  opacity: 0.75;
+  color: var(--text-main);
   transition: opacity 0.2s;
 }
 
@@ -135,6 +160,9 @@ form input[type="number"] {
   margin: 5px 0 20px;
   padding: 0 10px;
   font-size: 1rem;
+  background-color: var(--input-bg);
+  color: var(--text-main);
+  border: 1px solid var(--border-secondary);
 }
 
 form input[type="checkbox"] {
@@ -151,6 +179,7 @@ form input[type="checkbox"] {
 label {
   font-size: 0.9rem;
   font-weight: bold;
+  color: var(--text-main);
 }
 
 select {
@@ -172,8 +201,6 @@ select {
   max-width: 400px;
   margin: auto;
   padding: 10px;
-  background-color: var(--info-bg);
-  border: 2px solid var(--border-secondary);
 }
 
 .stats {
@@ -196,9 +223,13 @@ select {
   width: 50%;
   max-width: 190px;
   height: 3rem;
-  margin: 30px auto 0;
+  margin: 15px auto 0;
   font-size: 1.25rem;
-  background-color: rgb(194, 193, 193);
+  font-weight: bold;
+  color: var(--text-invert);
+  background-color: var(--button-main);
+  border-radius: 5px;
+  transition: background-color 0.2s;
 }
 
 .btn:hover,
@@ -206,10 +237,19 @@ form input[type="checkbox"]:hover {
   cursor: pointer;
 }
 
+.new-btn:hover,
+.reset-btn:hover,
+.add-btn:hover {
+  background-color: var(--button-main-hover);
+}
+
 .new-btn:hover:active,
 .reset-btn:hover:active,
-.add-btn:hover:active {
-  transform: scale(0.95);
+.add-btn:hover:active,
+.book-status:active {
+  transform: scale(0.97);
+  border: 1px inset var(--border-secondary);
+  box-shadow: none;
 }
 
 .options-toggle {
@@ -230,9 +270,10 @@ form input[type="checkbox"]:hover {
   display: none;
   flex-direction: column;
   width: 95%;
-  margin: 20px auto 0;
+  margin: 30px auto 0;
   padding: 10px 0;
-  border-top: 1px solid black;
+  border-top: 1px solid var(--border-secondary);
+  border-bottom: 1px solid var(--border-secondary);
 }
 
 #search {
@@ -240,7 +281,9 @@ form input[type="checkbox"]:hover {
   max-width: 400px;
   height: 2rem;
   padding: 0 10px;
-  border: 1px solid black;
+  color: var(--text-main);
+  background-color: var(--input-bg);
+  border: 1px solid var(--border-main);
   font-size: 1rem;
 }
 
@@ -282,20 +325,19 @@ form input[type="checkbox"]:hover {
   align-items: center;
   flex-wrap: wrap;
   width: 100%;
-  min-height: 500px;
 }
 
 .book {
   position: relative;
-  width: 90vw;
-  max-width: 300px;
+  width: 95vw;
+  max-width: 350px;
   height: 210px;
   margin: 20px;
   padding: 10px;
-  border: 4px solid red;
   border-radius: 15px;
   overflow: hidden;
-  background-color: rgb(255, 255, 0);
+  background-color: var(--book-main);
+  box-shadow: 0 0 4px var(--border-main);
 }
 
 .book-title {
@@ -305,6 +347,7 @@ form input[type="checkbox"]:hover {
   font-weight: bold;
   text-align: center;
   overflow: hidden;
+  color: var(--text-main);
 }
 
 .book-author {
@@ -315,6 +358,7 @@ form input[type="checkbox"]:hover {
   font-style: italic;
   text-align: center;
   overflow: hidden;
+  color: var(--text-secondary);
 }
 
 .book-footer {
@@ -324,7 +368,7 @@ form input[type="checkbox"]:hover {
   justify-content: space-between;
   align-self: flex-end;
   width: 100%;
-  bottom: -4px;
+  bottom: 10px;
   left: 0;
   padding: 0 10px;
 }
@@ -334,6 +378,7 @@ form input[type="checkbox"]:hover {
   margin-bottom: 5px;
   font-size: 0.9rem;
   text-align: center;
+  color: var(--text-secondary);
 }
 
 .edit-book,
@@ -349,37 +394,33 @@ form input[type="checkbox"]:hover {
 .delete-icon,
 .edit-icon {
   font-size: 28px;
+  color: var(--button-main);
   transition: color 0.3s;
 }
 
 .delete-icon:hover,
 .edit-icon:hover {
   cursor: pointer;
-}
-
-.delete-icon:hover {
-  color: red;
-}
-
-.edit-icon:hover {
-  color: rgb(0, 197, 0);
+  color: var(--button-main-hover);
 }
 
 .book-status {
   min-width: 50%;
-  height: 2.5rem;
+  height: 2rem;
   padding: 0 10px;
-  font-size: 1rem;
+  font-size: 1.1rem;
   text-align: center;
   text-transform: uppercase;
-  border: 1px solid black;
-  border-bottom: 4px solid red;
-  border-start-end-radius: 15px;
+  font-weight: bold;
+  color: var(--text-invert);
+  background-color: var(--book-status);
+  border-radius: 15px;
   border-start-start-radius: 15px;
+  box-shadow: 0 0 2px 1px var(--border-main);
 }
 
 .invalid {
-  border: 2px solid var(--border-invalid);
+  outline: 1px solid var(--border-invalid);
 }
 
 .footer {
@@ -391,12 +432,12 @@ form input[type="checkbox"]:hover {
   padding: 10px;
   bottom: 0;
   left: 0;
-  background-color: thistle;
+  background-color: var(--header-bg);
 }
 
 .footer > p {
   margin-right: 30px;
-  color: var(--main-font);
+  color: var(--text-main);
   font-size: 0.8rem;
   text-align: left;
   line-height: 1.5;
@@ -414,13 +455,9 @@ a {
 }
 
 @media only screen and (min-width: 650px) {
-  h1 {
-    padding: 30px 0 30px 30px;
-    text-align: left;
-  }
-
   .scroll-btn {
     width: 320px;
+    border-bottom: none;
   }
 
   .scroll-btn .material-icons {
@@ -439,7 +476,7 @@ a {
     display: block;
     width: 320px;
     min-height: 100vh;
-    padding: 20px 10px;
+    padding: 10px 10px;
   }
 
   .info-container {
@@ -457,12 +494,13 @@ a {
 
   .options-container {
     width: 300px;
-    margin-top: 25px;
+    margin-top: 20px;
     border-top: none;
+    border-bottom: none;
   }
 
   #search {
-    width: 100%;
+    width: 1000%;
     max-width: 300px;
   }
 
@@ -480,5 +518,9 @@ a {
     flex-direction: row;
     align-items: flex-start;
     align-content: flex-start;
+  }
+
+  .book {
+    max-width: 300px;
   }
 }

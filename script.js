@@ -18,18 +18,18 @@
   
   let myLibrary = [];
   let uniqueId = 1;
-  let libraryIndex = "";
-  let bookshelfIndex = "";
+  let libraryRef = "";
+  let bookshelfRef = "";
   let idReference = "";
 
   function setStorage() {
     localStorage.setItem("library", JSON.stringify(myLibrary));
     if (myLibrary.length === 0) {
       uniqueId = 1;
-    }
+    };
     localStorage.setItem("uniqueId", uniqueId);
-    localStorage.setItem("theme", themeSelect.value)
-  };
+    localStorage.setItem("theme", themeSelect.value);
+  }
   
   function getStorage() {
     myLibrary = JSON.parse(localStorage.getItem("library"));
@@ -37,24 +37,24 @@
     uniqueId = parseInt(localStorage.getItem("uniqueId"));
     themeSelect.value = localStorage.getItem("theme");
     toggleTheme();
-  };
+  }
   
-  function Book(title, author, pages, tags, status) {
+  function Book(title, author, pages, tags, read, id) {
     this.title = titleInput.value,
     this.author = authorInput.value,
     this.pages = pageInput.value,
     this.tags = tagsInput.value.toLowerCase().replace(/(\s,\s|,\s|\s,|,)/g, ",").split(","),
     this.read = statusInput.checked,
-    this.id = uniqueId;
-  };
-  
+    this.id = uniqueId
+  }
+
   function addToLibrary() {
     let newBook = new Book();
     uniqueId++;
     myLibrary.unshift(newBook);
-  };
+  }
   
-  function addToBookshelf(indexA, indexB) {
+  function displayOnBookshelf(indexA, indexB) {
     const bookDiv = document.createElement("div");
     const titleDiv = document.createElement("div");
     const authorDiv = document.createElement("div");
@@ -111,10 +111,8 @@
     statusButton.setAttribute("data-id", myLibrary[indexA].id);
     if (myLibrary[indexA].read) {
       statusButton.textContent = "read";
-      statusButton.style.backgroundColor = "var(--read-book)";
     } else {
       statusButton.textContent = "unread";
-      statusButton.style.backgroundColor = "var(--unread-book)";
     }
     footerDiv.appendChild(statusButton);
   
@@ -129,62 +127,58 @@
   
     bookDiv.appendChild(footerDiv);
     bookshelf.insertBefore(bookDiv, bookshelf.children[indexB]);
-  };
+  }
   
-  // store the myLibrary array index of the book whose edit/read status/delete button is clicked
   function findLibraryRef(e) {
     myLibrary.forEach((item, index) => {
       if (item.id === parseInt(e.target.dataset.id)) {
-        libraryIndex = index;
+        libraryRef = index;
       }
     });
     idReference = e.target.dataset.id;
-  };
+  }
   
-  // store the bookshelf index of the book being updated
   function findBookshelfRef() {
     Array.from(bookshelf.children).forEach((item, index) => {
       if (item.dataset.id === idReference) {
-        bookshelfIndex = index;
+        bookshelfRef = index;
       }
     });
-  };
+  }
   
   function pullBookInfo() {
-    titleInput.value = myLibrary[libraryIndex].title;
-    authorInput.value = myLibrary[libraryIndex].author;
-    pageInput.value = parseInt(myLibrary[libraryIndex].pages);
-    tagsInput.value = myLibrary[libraryIndex].tags.toString();
-    statusInput.checked = myLibrary[libraryIndex].read;
-  };
+    titleInput.value = myLibrary[libraryRef].title;
+    authorInput.value = myLibrary[libraryRef].author;
+    pageInput.value = parseInt(myLibrary[libraryRef].pages);
+    tagsInput.value = myLibrary[libraryRef].tags.toString();
+    statusInput.checked = myLibrary[libraryRef].read;
+  }
   
   function updateBook() {
-    myLibrary[libraryIndex].title = titleInput.value;
-    myLibrary[libraryIndex].author = authorInput.value;
-    myLibrary[libraryIndex].tags = tagsInput.value.replace(/\s,\s|,\s|\s,|,/g, ",").split(",");
-    myLibrary[libraryIndex].pages = pageInput.value;
-    myLibrary[libraryIndex].read = statusInput.checked;
-    addToBookshelf(libraryIndex, bookshelfIndex);
-    bookshelf.removeChild(bookshelf.children[bookshelfIndex + 1]);
-  };
+    myLibrary[libraryRef].title = titleInput.value;
+    myLibrary[libraryRef].author = authorInput.value;
+    myLibrary[libraryRef].tags = tagsInput.value.replace(/\s,\s|,\s|\s,|,/g, ",").split(",");
+    myLibrary[libraryRef].pages = pageInput.value;
+    myLibrary[libraryRef].read = statusInput.checked;
+    displayOnBookshelf(libraryRef, bookshelfRef);
+    bookshelf.removeChild(bookshelf.children[bookshelfRef + 1]);
+  }
   
   function deleteBook(e) {
-    bookshelf.removeChild(bookshelf.children[bookshelfIndex]);
-    myLibrary.splice(libraryIndex, 1);
-  };
+    bookshelf.removeChild(bookshelf.children[bookshelfRef]);
+    myLibrary.splice(libraryRef, 1);
+  }
   
   function updateStatus(e) {
     if (e.target.textContent === "read") {
       e.target.textContent = "unread";
-      e.target.style.backgroundColor = "var(--unread-book)";
-      myLibrary[libraryIndex].read = false;
+      myLibrary[libraryRef].read = false;
     } else if (e.target.textContent === "unread") {
       e.target.textContent = "read";
-      e.target.style.backgroundColor = "var(--read-book)";
-      myLibrary[libraryIndex].read = true;
+      myLibrary[libraryRef].read = true;
     }
     filterStatus();
-  };
+  }
 
   function toggleOptions() {
     if (options.style.display === "") {
@@ -194,7 +188,7 @@
       options.style.display = "";
       document.querySelector(".arrow").textContent = "arrow_drop_down";
     }
-  };
+  }
   
   function filterSearch() {
     const criteria = searchBox.value.toLowerCase();
@@ -231,12 +225,7 @@
         }
       }
     });
-    if (Array.from(bookshelf.children).every(book => book.style.display === "none")) {
-      searchBox.style.border = "2px solid red";
-    } else {
-      searchBox.style.border = "1px solid black";
-    };
-  };
+  }
   
   function filterStatus() {
     Array.from(bookshelf.children).forEach((item) => {
@@ -248,7 +237,7 @@
         item.style.display = "none";
       }
     });
-  };
+  }
   
   function sortLibrary() {
     let sortOption = sortDropdown.selectedIndex;
@@ -259,91 +248,77 @@
     switch(sortOption) {
       case 0:
         myLibrary.sort((a, b) => {
-          return b.id - a.id;
+          return a.id - b.id;
         })
         for (i = 0; i < myLibrary.length; i++) {
-          addToBookshelf(i);
+          displayOnBookshelf(i, 0);
         }
         break;
       case 1:
         myLibrary.sort((a, b) => {
-          return a.id - b.id;
+          return b.id - a.id;
         })
         for (i = 0; i < myLibrary.length; i++) {
-          addToBookshelf(i);
+          displayOnBookshelf(i, 0);
         }
         break;
       case 2:
         myLibrary.sort((a, b) => {
-          if (a.title < b.title) {
+          if (a.title > b.title) {
             return -1;
-          } else if (a.title > b.title) {
+          } else if (a.title < b.title) {
             return 1;
           } else {
             return 0;
           }
         })
         for (i = 0; i < myLibrary.length; i++) {
-          addToBookshelf(i);
+          displayOnBookshelf(i, 0);
         }
         break;
       case 3:
         myLibrary.sort((a, b) => {
-          if (b.title < a.title) {
+          if (b.title > a.title) {
             return -1;
-          } else if (b.title > a.title) {
+          } else if (b.title < a.title) {
             return 1;
           } else {
             return 0;
           }
         })
         for (i = 0; i < myLibrary.length; i++) {
-          addToBookshelf(i);
+          displayOnBookshelf(i, 0);
         }
         break;
       case 4:
         myLibrary.sort((a, b) => {
-          if (a.author < b.author) {
+          if (a.author > b.author) {
             return -1;
-          } else if (a.author > b.author) {
+          } else if (a.author < b.author) {
             return 1;
           } else {
             return 0;
           }
         })
         for (i = 0; i < myLibrary.length; i++) {
-          addToBookshelf(i);
+          displayOnBookshelf(i, 0);
         }
         break;
       case 5:
         myLibrary.sort((a, b) => {
-          if (b.author < a.author) {
+          if (b.author > a.author) {
             return -1;
-          } else if (b.author > a.author) {
+          } else if (b.author < a.author) {
             return 1;
           } else {
             return 0;
           }
         })
         for (i = 0; i < myLibrary.length; i++) {
-          addToBookshelf(i);
+          displayOnBookshelf(i, 0);
         }
         break;
     }
-  };
-
-  function clearForm() {
-    titleInput.value = "";
-    authorInput.value = "";
-    pageInput.value = "";
-    tagsInput.value = "";
-    statusInput.checked = false;
-  };
-
-  function clearReferences() {
-    libraryIndex = "";
-    bookshelfIndex = "";
-    idReference = "";
   }
 
   function displayModal(e) {
@@ -357,24 +332,38 @@
       addBtn.textContent = "Update";
     }
     titleInput.focus();
-  };
+  }
+
+  function clearForm() {
+    titleInput.value = "";
+    authorInput.value = "";
+    pageInput.value = "";
+    tagsInput.value = "";
+    statusInput.checked = false;
+  }
+
+  function clearReferences() {
+    libraryRef = "";
+    bookshelfRef = "";
+    idReference = "";
+  }
 
   function resetOptions() {
     searchBox.value = "";
     searchDropdown.value = "title";
     statusDropdown.value = "all"
     sortDropdown.value = "newest";
-  };
+  }
 
   function toggleScrollBtn() {
     let resetBtn = document.querySelector(".reset-btn");
     if (document.body.scrollWidth < 650 && window.pageYOffset > bookshelf.offsetTop || 
-      document.body.scrollWidth > 650 && window.pageYOffset > (resetBtn.offsetTop + 50)) {
+        document.body.scrollWidth > 650 && window.pageYOffset > (resetBtn.offsetTop + 50)) {
       document.querySelector(".scroll-btn").style.display = "block";
     } else {
       document.querySelector(".scroll-btn").style.display = "";
     }
-  };
+  }
 
   function toggleTheme() {
     if (themeSelect.value === "dark") {
@@ -382,7 +371,7 @@
     } else if (themeSelect.value === "light") {
       document.body.className = "theme-light";
     }
-  };
+  }
 
   function updateTotals() {
     let readTotal = 0;
@@ -394,7 +383,7 @@
     })
     document.querySelector(".read-amount").textContent = readTotal;
     document.querySelector(".unread-amount").textContent = myLibrary.length - readTotal;
-  };
+  }
   
   
   window.addEventListener("load", () => {
@@ -423,6 +412,7 @@
     titleInput.classList.remove("invalid");
     titleInput.removeAttribute("placeholder");
   })
+
   document.querySelector(".close-btn").addEventListener("click", () => {
     document.querySelector(".modal-container").style.display = "none";
     clearForm();
@@ -430,10 +420,11 @@
     titleInput.classList.remove("invalid");
     titleInput.removeAttribute("placeholder");
   })
+
   document.querySelector(".add-modal").addEventListener("click", (e) => {
     e.stopPropagation();
   })
-  
+
   addBtn.addEventListener("click", (e) => {
     if(addBtn.textContent === "Add") {
       if (titleInput.value.trim() === "") {
@@ -445,10 +436,11 @@
       };
       addToLibrary();
       sortLibrary();
+      filterStatus();
       clearForm();
-      titleInput.focus();
       updateTotals();
       setStorage();
+      titleInput.focus();
     } else if (addBtn.textContent === "Update") {
       findBookshelfRef();
       updateBook();
@@ -459,14 +451,14 @@
       setStorage();
       document.querySelector(".modal-container").style.display = "none";
     }
-  });
+  })
 
   titleInput.addEventListener("keyup", () => {
     if (titleInput.value.match(/./)) {
       titleInput.classList.remove("invalid");
       titleInput.removeAttribute("placeholder");
     }
-  });
+  })
 
   bookshelf.addEventListener("click", (e) => {
     if (e.target.className.includes("book-status") && e.target.matches("button")) {
@@ -487,13 +479,15 @@
       updateTotals();
       setStorage();
     }
-  });
+  })
 
-  // event listeners for library options
-  searchBox.addEventListener("keyup", filterSearch);
-  searchDropdown.addEventListener("change", filterSearch);
-  statusDropdown.addEventListener("change", filterStatus);
-  document.querySelector(".options-toggle").addEventListener("click", toggleOptions);
+  searchBox.addEventListener("keyup", filterSearch)
+
+  searchDropdown.addEventListener("change", filterSearch)
+
+  statusDropdown.addEventListener("change", filterStatus)
+
+  document.querySelector(".options-toggle").addEventListener("click", toggleOptions)
   
   window.addEventListener("resize", () => {
     if (document.body.scrollWidth >= 650) {
@@ -505,34 +499,28 @@
         document.querySelector(".arrow").textContent = "arrow_drop_up";
       }
     }
-  });
+  })
 
   sortDropdown.addEventListener("change", () => {
     sortLibrary();
     filterStatus();
-  });
+  })
 
   document.querySelector(".reset-btn").addEventListener("click", () => {
     resetOptions();
     filterSearch();
     filterStatus();
     sortLibrary();
-  });
+  })
   
-  // misc. event listeners
   window.addEventListener("scroll", toggleScrollBtn);
   
   themeSelect.addEventListener("change", () => {
     toggleTheme();
     setStorage();
-  });
+  })
   
   document.querySelector(".scroll-btn").addEventListener("click", () => {
     document.documentElement.scrollTop = 0;
-  });
+  })
 }());
-  
-
-
-
-
