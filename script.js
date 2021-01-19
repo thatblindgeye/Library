@@ -39,13 +39,15 @@
     toggleTheme();
   }
   
-  function Book(title, author, pages, tags, read, id) {
-    this.title = titleInput.value,
-    this.author = authorInput.value,
-    this.pages = pageInput.value,
-    this.tags = tagsInput.value.toLowerCase().replace(/(\s,\s|,\s|\s,|,)/g, ",").split(","),
-    this.read = statusInput.checked,
-    this.id = uniqueId
+  class Book {
+    constructor(title, author, pages, tags, read, id) {
+      this.title = titleInput.value,
+      this.author = authorInput.value,
+      this.pages = pageInput.value,
+      this.tags = tagsInput.value.toLowerCase().replace(/(\s,\s|,\s|\s,|,)/g, ",").split(","),
+      this.read = statusInput.checked,
+      this.id = uniqueId
+    }
   }
 
   function addToLibrary() {
