@@ -1,5 +1,5 @@
 "use strict";
-(function() {
+
   const bookshelf = document.querySelector(".bookshelf");
   const options = document.querySelector(".options-container");
   
@@ -523,4 +523,3 @@
   document.querySelector(".scroll-btn").addEventListener("click", () => {
     document.documentElement.scrollTop = 0;
   })
-}());
